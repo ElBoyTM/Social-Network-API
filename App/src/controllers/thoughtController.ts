@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 import { Thought } from '../models';
-
+/**
+ * GET All Thoughts /thoughts
+ * @param _req 
+ * @param res 
+ */
 export const getThoughts = async (_req: Request, res: Response) => {
     try {
         const thoughts = await Thought.find();
@@ -13,6 +17,11 @@ export const getThoughts = async (_req: Request, res: Response) => {
     }
 };
 
+/**
+ * GET Thought by id /thoughts/:thoughtId
+ * @param req 
+ * @param res 
+ */
 export const getThoughtById = async (req: Request, res: Response) => {
     const { thoughtId } = req.params;
     try {
@@ -31,6 +40,11 @@ export const getThoughtById = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * POST Create a Thought /thoughts
+ * @param req 
+ * @param res 
+ */
 export const createThought = async (req: Request, res: Response) => {
     try {
         const thought = await Thought.create(req.body);
@@ -40,6 +54,11 @@ export const createThought = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * PUT Update a Thought /thoughts/:thoughtId
+ * @param req 
+ * @param res 
+ */
 export const updateThought = async (req: Request, res: Response) => {
     const { thoughtId } = req.params;
     try {
@@ -60,6 +79,11 @@ export const updateThought = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * DELETE a Thought /thoughts/:thoughtId
+ * @param req 
+ * @param res 
+ */
 export const deleteThought = async (req: Request, res: Response) => {
     const { thoughtId } = req.params;
     try {
@@ -80,6 +104,11 @@ export const deleteThought = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * POST Create a Reaction /thoughts/:thoughtId/reactions
+ * @param req 
+ * @param res 
+ */
 export const createReaction = async (req: Request, res: Response) => {
     const { thoughtId } = req.params;
     try {
@@ -102,6 +131,11 @@ export const createReaction = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * DELETE a Reaction /thoughts/:thoughtId/reactions/:reactionId
+ * @param req 
+ * @param res 
+ */
 export const deleteReaction = async (req: Request, res: Response) => {
     const { thoughtId, reactionId } = req.params;
     try {
@@ -124,6 +158,11 @@ export const deleteReaction = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * PUT Update a Reaction /thoughts/:thoughtId/reactions/:reactionId
+ * @param req 
+ * @param res 
+ */
 export const updateReaction = async (req: Request, res: Response) => {
     const { thoughtId, reactionId } = req.params;
     try {
@@ -146,6 +185,11 @@ export const updateReaction = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * GET Reaction by id /thoughts/:thoughtId/reactions/:reactionId
+ * @param req 
+ * @param res 
+ */
 export const getReaction = async (req: Request, res: Response) => {
     const { thoughtId, reactionId } = req.params;
     try {
@@ -167,6 +211,11 @@ export const getReaction = async (req: Request, res: Response) => {
     }
 };
 
+/**
+ * GET All Reactions /thoughts/:thoughtId/reactions
+ * @param req 
+ * @param res 
+ */
 export const getReactions = async (req: Request, res: Response) => {
     const { thoughtId } = req.params;
     try {
