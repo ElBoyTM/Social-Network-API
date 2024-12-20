@@ -8,7 +8,7 @@ import {
   deleteThought,
   createReaction,
   deleteReaction
-} from '../../controllers/thoughtController';
+} from '../../controllers/thoughtController.js';
 
 // GET all thoughts /thoughts
 router.get('/', getThoughts);

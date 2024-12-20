@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
-import { Thought } from '../models';
+import { Thought } from '../models/index.js';
 /**
  * GET All Thoughts /thoughts
  * @param _req 
