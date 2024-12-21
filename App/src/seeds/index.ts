@@ -2,55 +2,57 @@ import db from '../config/connection.js';
 import { User, Thought } from '../models/index.js';
 import cleanDB from './cleanDB.js';
 
-try {
-  await db();
-  await cleanDB();
+const seedDatabase = async () => {
+  try {
+    await db();
+    await cleanDB();
 
-  // Create empty array to hold the users
-  const users = [];
+    // Create empty array to hold the users
+    const users = [];
 
-  // Loop 3 times -- add users to the users array
-  for (let i = 0; i < 3; i++) {
-    const username = `user${i}`;
-    const email = `${
-        username
-        }@gmail.com`;
-    const thoughts = [];
+    // Loop 3 times -- add users to the users array
+    for (let i = 0; i < 3; i++) {
+      const username = `user${i}`;
+      const email = `${username}@gmail.com`;
 
-    // Loop 3 times -- add thoughts to the thoughts array
-    for (let j = 0; j < 3; j++) {
-      const thoughtText = `Thought ${j}`;
-      const thoughtReactions = [];
+      // Create empty array to hold the thoughts
+      const thoughts = [];
 
-      // Loop 3 times -- add reactions to the reactions array
-      for (let k = 0; k < 3; k++) {
-        const reactionBody = `Reaction ${k}`;
-        const reactionUsername = `user${k}`;
+      // Loop 3 times -- add thoughts to the thoughts array
+      for (let j = 0; j < 3; j++) {
+        const thoughtText = `Thought ${j}`;
+        const thoughtReactions = [];
 
-        thoughtReactions.push({ reactionBody, reactionUsername });
+        // Loop 3 times -- add reactions to the reactions array
+        for (let k = 0; k < 3; k++) {
+          const reactionBody = `Reaction ${k}`;
+          const reactionUsername = `user${k}`;
+          thoughtReactions.push({ reactionBody, username: reactionUsername });
+        }
+
+        // Create a new Thought document
+        const thought = await Thought.create({
+          thoughtText,
+          username,
+          reactions: thoughtReactions,
+        });
+
+        // Add the Thought's ObjectId to the thoughts array
+        thoughts.push(thought._id);
       }
 
-      thoughts.push({ thoughtText, thoughtReactions });
+      // Add the user with the thoughts array
+      users.push({ username, email, thoughts });
     }
 
-    users.push({ username, email, thoughts });
-    }
-
-    // Add users to the collection and await the results
-    const userData = await User.create(users);
-
-    // Add thoughts to the collection and await the results
-    await Thought.create({
-      thoughtText: 'Thought 1',
-      username: userData[0].username,
-      reactions: [{ reactionBody: 'Reaction 1', reactionUsername: userData[1].username }],
-    });
-
-    // Log out the seed data to indicate what should appear in the database
-    console.table(users);
-    console.info('Seeding complete!');
+    // Insert the users into the database
+    await User.insertMany(users);
+    console.log('Database seeded');
     process.exit(0);
-    } catch (error) {
-      console.error('Error seeding database:', error);
-      process.exit(1);
-    }
+  } catch (err) {
+    console.error('Error seeding database:', err);
+    process.exit(1);
+  }
+};
+
+seedDatabase();
